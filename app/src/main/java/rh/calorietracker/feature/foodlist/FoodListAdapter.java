@@ -18,6 +18,10 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHo
 
     private final List<Food> foodList = new ArrayList<>();
 
+    private OnClickListener onClickListener;
+
+    private OnLongClickListener onLongClickListener;
+
     public FoodListAdapter(List<Food> foodList) {
         if (!foodList.isEmpty()) {
             this.foodList.addAll(foodList);
@@ -32,14 +36,49 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Food food = foodList.get(position);
+        final Food food = foodList.get(position);
         holder.textName.setText(food.getName());
         holder.textCalories.setText(String.valueOf(food.getCalories()));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickListener != null) {
+                    onClickListener.onItemClicked(food);
+                }
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (onLongClickListener != null) {
+                    onLongClickListener.onItemLongClicked(food);
+                    return true;
+                }
+
+                return false;
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return foodList.size();
+    }
+
+    public void removeItem(Food food) {
+        int position = foodList.indexOf(food);
+        foodList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    public void setOnLongClickListener(OnLongClickListener onLongClickListener) {
+        this.onLongClickListener = onLongClickListener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -54,5 +93,13 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.ViewHo
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public interface OnClickListener {
+        void onItemClicked(Food food);
+    }
+
+    public interface OnLongClickListener {
+        void onItemLongClicked(Food food);
     }
 }

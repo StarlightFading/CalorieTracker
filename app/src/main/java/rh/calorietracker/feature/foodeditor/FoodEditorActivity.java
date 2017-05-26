@@ -1,8 +1,9 @@
 package rh.calorietracker.feature.foodeditor;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -17,6 +18,8 @@ public class FoodEditorActivity extends AppCompatActivity {
 
     public static final int RESULT_DATA_CHANGED = 1;
 
+    public static final String EXTRA_FOOD = "food";
+
     @BindView(R.id.edit_food_name)
     EditText editName;
 
@@ -25,19 +28,48 @@ public class FoodEditorActivity extends AppCompatActivity {
 
     private Menu menu;
 
-    private final FoodEditorPresenter presenter = new FoodEditorPresenter(this);
+    private FoodEditorPresenter presenter;
+
+    private boolean editMode = false;
+
+    public static Intent createIntent(Context context, Food food) {
+        Intent intent = new Intent(context, FoodEditorActivity.class);
+        intent.putExtra(EXTRA_FOOD, food);
+
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_editor);
         ButterKnife.bind(this);
+
+        Food food = null;
+        if (getIntent().hasExtra(EXTRA_FOOD)) {
+            editMode = true;
+
+            food = (Food) getIntent().getSerializableExtra(EXTRA_FOOD);
+            editName.setText(food.getName());
+            editCalories.setText(String.valueOf(food.getCalories()));
+        }
+
+         presenter = new FoodEditorPresenter(this, food);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.food_editor, menu);
         this.menu = menu;
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (editMode) {
+            menu.findItem(R.id.action_save_food).setEnabled(true);
+        }
+
         return true;
     }
 
@@ -58,7 +90,9 @@ public class FoodEditorActivity extends AppCompatActivity {
 
     @OnTextChanged(R.id.edit_food_name)
     public void onFoodNameChanged(CharSequence name) {
-        MenuItem saveItem = menu.findItem(R.id.action_save_food);
-        saveItem.setEnabled(!editName.getText().toString().trim().isEmpty());
+        if (menu != null) {
+            MenuItem saveItem = menu.findItem(R.id.action_save_food);
+            saveItem.setEnabled(!editName.getText().toString().trim().isEmpty());
+        }
     }
 }

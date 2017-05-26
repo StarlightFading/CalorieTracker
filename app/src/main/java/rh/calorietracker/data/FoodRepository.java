@@ -10,5 +10,7 @@ public interface FoodRepository {
 
     void create(Food food);
 
+    void update(Food food);
+
     void delete(Food food);
 }

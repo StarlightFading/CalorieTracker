@@ -3,6 +3,7 @@ package rh.calorietracker.feature.foodlist;
 import rh.calorietracker.Presenter;
 import rh.calorietracker.data.FoodRepository;
 import rh.calorietracker.data.impl.MockFoodRepository;
+import rh.calorietracker.entity.Food;
 
 public class FoodListPresenter extends Presenter<FoodListContract.View> implements FoodListContract.ViewActions {
 
@@ -15,5 +16,10 @@ public class FoodListPresenter extends Presenter<FoodListContract.View> implemen
     @Override
     public void onFoodListRequested() {
         view.displayFoods(foodRepository.findAll());
+    }
+
+    @Override
+    public void onFoodDeleted(Food food) {
+        foodRepository.delete(food);
     }
 }

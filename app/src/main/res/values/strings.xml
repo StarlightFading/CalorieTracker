@@ -4,4 +4,7 @@
     <string name="save">Save</string>
     <string name="food_name">Food Name</string>
     <string name="calories">Calories</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="message_delete_item_confirmation">Are you sure you want to delete this item?</string>
 </resources>

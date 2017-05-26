@@ -1,6 +1,10 @@
 package rh.calorietracker.entity;
 
-public class Food {
+import java.io.Serializable;
+
+public class Food implements Serializable {
+
+    private Long id;
 
     private String name;
 
@@ -9,6 +13,20 @@ public class Food {
     public Food(String name, int calories) {
         this.name = name;
         this.calories = calories;
+    }
+
+    public Food(Long id, String name, int calories) {
+        this.id = id;
+        this.name = name;
+        this.calories = calories;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

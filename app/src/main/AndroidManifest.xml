@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="rh.calorietracker">
+          package="rh.calorietracker">
 
     <application
         android:allowBackup="true"
@@ -11,13 +11,16 @@
         android:theme="@style/AppTheme">
         <activity android:name=".feature.foodlist.FoodListActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".feature.foodeditor.FoodEditorActivity"
+        <activity
+            android:name=".feature.foodeditor.FoodEditorActivity"
             android:parentActivityName=".feature.foodlist.FoodListActivity"/>
+        <activity android:name=".feature.fooddetails.FoodDetailsActivity"
+            android:parentActivityName=".feature.foodlist.FoodListActivity" />
     </application>
 
 </manifest>

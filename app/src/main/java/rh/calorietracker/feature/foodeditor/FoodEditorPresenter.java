@@ -10,12 +10,21 @@ public class FoodEditorPresenter extends Presenter<FoodEditorActivity> implement
 
     private final FoodRepository foodRepository = new MockFoodRepository();
 
-    public FoodEditorPresenter(FoodEditorActivity view) {
+    private final Food food;
+
+    public FoodEditorPresenter(FoodEditorActivity view, Food food) {
         super(view);
+        this.food = food;
     }
 
     @Override
     public void onFoodSaved(Food food) {
-        foodRepository.create(food);
+        if (this.food == null) {
+            foodRepository.create(food);
+        } else {
+            this.food.setName(food.getName());
+            this.food.setCalories(food.getCalories());
+            foodRepository.update(this.food);
+        }
     }
 }

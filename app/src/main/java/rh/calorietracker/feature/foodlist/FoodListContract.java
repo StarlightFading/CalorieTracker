@@ -12,5 +12,7 @@ public interface FoodListContract {
 
     interface ViewActions {
         void onFoodListRequested();
+
+        void onFoodDeleted(Food food);
     }
 }
