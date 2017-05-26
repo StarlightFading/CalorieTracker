@@ -21,4 +21,25 @@
         android:inputType="number"
         android:hint="@string/calories"/>
 
+    <EditText
+        android:id="@+id/edit_food_protein"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="@string/protein"/>
+
+    <EditText
+        android:id="@+id/edit_food_carbs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="@string/carbs"/>
+
+    <EditText
+        android:id="@+id/edit_food_fat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="@string/fat"/>
+
 </LinearLayout>

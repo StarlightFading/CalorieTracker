@@ -23,6 +23,15 @@ public class FoodDetailsActivity extends AppCompatActivity {
     @BindView(R.id.text_food_calories)
     TextView textCalories;
 
+    @BindView(R.id.text_food_protein)
+    TextView textProtein;
+
+    @BindView(R.id.text_food_carbs)
+    TextView textCarbs;
+
+    @BindView(R.id.text_food_fat)
+    TextView textFat;
+
     public static Intent createIntent(Context context, Food food) {
         Intent intent = new Intent(context, FoodDetailsActivity.class);
         intent.putExtra(EXTRA_FOOD, food);
@@ -44,6 +53,9 @@ public class FoodDetailsActivity extends AppCompatActivity {
 
         textName.setText(food.getName());
         textCalories.setText(String.valueOf(food.getCalories()));
+        textProtein.setText(String.valueOf(food.getProtein()));
+        textCarbs.setText(String.valueOf(food.getCarbs()));
+        textFat.setText(String.valueOf(food.getFat()));
 
         setTitle(food.getName());
     }

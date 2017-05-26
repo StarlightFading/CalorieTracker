@@ -15,8 +15,8 @@ public class MockFoodRepository implements FoodRepository {
     private static Long idCounter = 2L;
 
     static {
-        foods.put(1L, new Food(1L, "test", 5));
-        foods.put(2L, new Food(2L, "another one", 10));
+        foods.put(1L, new Food(1L, "test", 5, 4, 3, 2));
+        foods.put(2L, new Food(2L, "another one", 10, 15, 20, 25));
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +26,15 @@ public class FoodEditorActivity extends AppCompatActivity {
 
     @BindView(R.id.edit_food_calories)
     EditText editCalories;
+
+    @BindView(R.id.edit_food_protein)
+    EditText editProtein;
+
+    @BindView(R.id.edit_food_carbs)
+    EditText editCarbs;
+
+    @BindView(R.id.edit_food_fat)
+    EditText editFat;
 
     private Menu menu;
 
@@ -52,6 +62,9 @@ public class FoodEditorActivity extends AppCompatActivity {
             food = (Food) getIntent().getSerializableExtra(EXTRA_FOOD);
             editName.setText(food.getName());
             editCalories.setText(String.valueOf(food.getCalories()));
+            editProtein.setText(String.valueOf(food.getProtein()));
+            editCarbs.setText(String.valueOf(food.getCarbs()));
+            editFat.setText(String.valueOf(food.getFat()));
         }
 
          presenter = new FoodEditorPresenter(this, food);
@@ -76,9 +89,14 @@ public class FoodEditorActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_save_food) {
-            presenter.onFoodSaved(
-                    new Food(editName.getEditableText().toString().trim(),
-                            Integer.parseInt(editCalories.getEditableText().toString())));
+            Food food = new Food(
+                    editName.getEditableText().toString().trim(),
+                    Integer.parseInt(editCalories.getEditableText().toString()),
+                    Integer.parseInt(editProtein.getEditableText().toString()),
+                    Integer.parseInt(editCarbs.getEditableText().toString()),
+                    Integer.parseInt(editFat.getEditableText().toString()));
+
+            presenter.onFoodSaved(food);
 
             setResult(RESULT_DATA_CHANGED);
             finish();

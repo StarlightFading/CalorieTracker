@@ -24,6 +24,9 @@ public class FoodEditorPresenter extends Presenter<FoodEditorActivity> implement
         } else {
             this.food.setName(food.getName());
             this.food.setCalories(food.getCalories());
+            this.food.setProtein(food.getProtein());
+            this.food.setCarbs(food.getCarbs());
+            this.food.setFat(food.getFat());
             foodRepository.update(this.food);
         }
     }
