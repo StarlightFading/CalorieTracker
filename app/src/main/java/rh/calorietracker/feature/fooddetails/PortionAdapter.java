@@ -1,4 +1,4 @@
-package rh.calorietracker.feature.foodlist;
+package rh.calorietracker.feature.fooddetails;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,17 +12,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import rh.calorietracker.R;
 import rh.calorietracker.common.RecyclerViewAdapter;
-import rh.calorietracker.entity.Food;
+import rh.calorietracker.entity.Portion;
 
-public class FoodListAdapter extends RecyclerViewAdapter<Food, FoodListAdapter.ViewHolder> {
+public class PortionAdapter extends RecyclerViewAdapter<Portion, PortionAdapter.ViewHolder> {
 
-    public FoodListAdapter(List<Food> items) {
+    public PortionAdapter(List<Portion> items) {
         super(items);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_food, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_portion, parent, false);
         return new ViewHolder(view);
     }
 
@@ -30,18 +30,24 @@ public class FoodListAdapter extends RecyclerViewAdapter<Food, FoodListAdapter.V
     public void onBindViewHolder(ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
 
-        final Food food = getItem(position);
-        holder.textName.setText(food.getName());
-        holder.textCalories.setText(String.valueOf(food.getCalories()));
+        Portion portion = getItem(position);
+        holder.name.setText(portion.getName());
+        holder.amount.setText(String.valueOf(portion.getAmount()));
+
+        int calories = portion.getFood().getCalories() * portion.getAmount() / 100;
+        holder.calories.setText(String.valueOf(calories));
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.text_food_name)
-        TextView textName;
+        @BindView(R.id.text_portion_name)
+        TextView name;
 
-        @BindView(R.id.text_food_calories)
-        TextView textCalories;
+        @BindView(R.id.text_portion_amount)
+        TextView amount;
+
+        @BindView(R.id.text_portion_calories)
+        TextView calories;
 
         public ViewHolder(View itemView) {
             super(itemView);

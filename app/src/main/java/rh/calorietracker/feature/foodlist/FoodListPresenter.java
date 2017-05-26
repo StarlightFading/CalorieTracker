@@ -1,6 +1,6 @@
 package rh.calorietracker.feature.foodlist;
 
-import rh.calorietracker.Presenter;
+import rh.calorietracker.common.Presenter;
 import rh.calorietracker.data.FoodRepository;
 import rh.calorietracker.data.impl.MockFoodRepository;
 import rh.calorietracker.entity.Food;

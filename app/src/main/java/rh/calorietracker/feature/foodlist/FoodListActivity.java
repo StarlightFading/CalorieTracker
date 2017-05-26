@@ -17,6 +17,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rh.calorietracker.R;
+import rh.calorietracker.common.RecyclerViewAdapter;
 import rh.calorietracker.entity.Food;
 import rh.calorietracker.feature.fooddetails.FoodDetailsActivity;
 import rh.calorietracker.feature.foodeditor.FoodEditorActivity;
@@ -116,18 +117,18 @@ public class FoodListActivity extends AppCompatActivity implements FoodListContr
     public void displayFoods(List<Food> foods) {
         foodListAdapter = new FoodListAdapter(foods);
 
-        foodListAdapter.setOnClickListener(new FoodListAdapter.OnClickListener() {
+        foodListAdapter.setOnClickListener(new RecyclerViewAdapter.OnClickListener() {
             @Override
-            public void onItemClicked(Food food) {
-                startActivity(FoodDetailsActivity.createIntent(FoodListActivity.this, food));
+            public void onItemClicked(Object item) {
+                startActivity(FoodDetailsActivity.createIntent(FoodListActivity.this, (Food) item));
             }
         });
 
-        foodListAdapter.setOnLongClickListener(new FoodListAdapter.OnLongClickListener() {
+        foodListAdapter.setOnLongClickListener(new RecyclerViewAdapter.OnLongClickListener() {
             @Override
-            public void onItemLongClicked(Food food) {
+            public void onItemLongClicked(Object item) {
                 if (actionMode == null) {
-                    selectedFood = food;
+                    selectedFood = (Food) item;
                     actionMode = startSupportActionMode(actionModeCallback);
                 }
             }

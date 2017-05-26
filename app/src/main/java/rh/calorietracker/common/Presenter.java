@@ -1,4 +1,4 @@
-package rh.calorietracker;
+package rh.calorietracker.common;
 
 public abstract class Presenter<V> {
 
