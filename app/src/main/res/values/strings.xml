@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CalorieTracker</string>
+    <string name="add_food">Add Food</string>
+    <string name="save">Save</string>
+    <string name="food_name">Food Name</string>
+    <string name="calories">Calories</string>
+</resources>
