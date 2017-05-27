@@ -18,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import rh.calorietracker.R;
 import rh.calorietracker.common.RecyclerViewAdapter;
+import rh.calorietracker.data.impl.DatabaseHelper;
 import rh.calorietracker.entity.Food;
 import rh.calorietracker.feature.fooddetails.FoodDetailsActivity;
 import rh.calorietracker.feature.foodeditor.FoodEditorActivity;
@@ -28,7 +29,7 @@ public class FoodListActivity extends AppCompatActivity implements FoodListContr
     @BindView(R.id.recycler_foods)
     RecyclerView recyclerFoods;
 
-    private final FoodListPresenter presenter = new FoodListPresenter(this);
+    private FoodListPresenter presenter;
 
     private final ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
         @Override
@@ -80,8 +81,12 @@ public class FoodListActivity extends AppCompatActivity implements FoodListContr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_list);
         ButterKnife.bind(this);
+
+        DatabaseHelper.init(this); // TODO: move this
+
         setupView();
 
+        presenter = new FoodListPresenter(this);
         presenter.onFoodListRequested();
     }
 

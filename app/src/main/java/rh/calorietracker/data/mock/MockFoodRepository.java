@@ -1,4 +1,4 @@
-package rh.calorietracker.data.impl;
+package rh.calorietracker.data.mock;
 
 import java.util.ArrayList;
 import java.util.HashMap;

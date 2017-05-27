@@ -91,10 +91,10 @@ public class FoodEditorActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_save_food) {
             Food food = new Food(
                     editName.getEditableText().toString().trim(),
-                    Integer.parseInt(editCalories.getEditableText().toString()),
-                    Integer.parseInt(editProtein.getEditableText().toString()),
-                    Integer.parseInt(editCarbs.getEditableText().toString()),
-                    Integer.parseInt(editFat.getEditableText().toString()));
+                    getInt(editCalories),
+                    getInt(editProtein),
+                    getInt(editCarbs),
+                    getInt(editFat));
 
             presenter.onFoodSaved(food);
 
@@ -112,5 +112,14 @@ public class FoodEditorActivity extends AppCompatActivity {
             MenuItem saveItem = menu.findItem(R.id.action_save_food);
             saveItem.setEnabled(!editName.getText().toString().trim().isEmpty());
         }
+    }
+
+    private int getInt(EditText editText) {
+        String text = editText.getText().toString().trim();
+        if (text.isEmpty()) {
+            return 0;
+        }
+
+        return Integer.parseInt(text);
     }
 }

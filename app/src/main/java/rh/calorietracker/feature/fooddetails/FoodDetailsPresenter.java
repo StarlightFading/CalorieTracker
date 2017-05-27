@@ -4,7 +4,7 @@ import java.util.List;
 
 import rh.calorietracker.common.Presenter;
 import rh.calorietracker.data.PortionRepository;
-import rh.calorietracker.data.impl.MockPortionRepository;
+import rh.calorietracker.data.mock.MockPortionRepository;
 import rh.calorietracker.entity.Food;
 import rh.calorietracker.entity.Portion;
 

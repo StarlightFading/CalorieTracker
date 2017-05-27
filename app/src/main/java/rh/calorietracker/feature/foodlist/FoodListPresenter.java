@@ -2,12 +2,12 @@ package rh.calorietracker.feature.foodlist;
 
 import rh.calorietracker.common.Presenter;
 import rh.calorietracker.data.FoodRepository;
-import rh.calorietracker.data.impl.MockFoodRepository;
+import rh.calorietracker.data.impl.DatabaseFoodRepository;
 import rh.calorietracker.entity.Food;
 
 public class FoodListPresenter extends Presenter<FoodListContract.View> implements FoodListContract.ViewActions {
 
-    private final FoodRepository foodRepository = new MockFoodRepository();
+    private final FoodRepository foodRepository = new DatabaseFoodRepository();
 
     public FoodListPresenter(FoodListContract.View view) {
         super(view);
