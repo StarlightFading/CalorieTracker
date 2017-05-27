@@ -89,12 +89,12 @@ public class FoodEditorActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_save_food) {
-            Food food = new Food(
-                    editName.getEditableText().toString().trim(),
-                    getInt(editCalories),
-                    getInt(editProtein),
-                    getInt(editCarbs),
-                    getInt(editFat));
+            Food food = new Food();
+            food.setName(editName.getEditableText().toString().trim());
+            food.setCalories(getInt(editCalories));
+            food.setProtein(getInt(editProtein));
+            food.setCarbs(getInt(editCarbs));
+            food.setFat(getInt(editFat));
 
             presenter.onFoodSaved(food);
 

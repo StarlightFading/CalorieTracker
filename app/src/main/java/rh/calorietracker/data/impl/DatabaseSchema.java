@@ -2,6 +2,8 @@ package rh.calorietracker.data.impl;
 
 import android.provider.BaseColumns;
 
+// TODO: add on delete cascade where appropriate
+
 public class DatabaseSchema {
 
     public static final class FoodEntry implements BaseColumns {
@@ -24,7 +26,7 @@ public class DatabaseSchema {
                 + FAT + " INTEGER)";
 
         public static final String _SQL_DELETE_TABLE =
-                "DELETE TABLE IF EXISTS " + _TABLE_NAME;
+                "DROP TABLE IF EXISTS " + _TABLE_NAME;
     }
 
     public static final class PortionEntry implements BaseColumns {
@@ -43,6 +45,6 @@ public class DatabaseSchema {
                 + FOOD_ID + " INTEGER NOT NULL REFERENCES " + FoodEntry._TABLE_NAME + ")";
 
         public static final String _SQL_DELETE_TABLE =
-                "DELETE TABLE IF EXISTS " + _TABLE_NAME;
+                "DROP TABLE IF EXISTS " + _TABLE_NAME;
     }
 }

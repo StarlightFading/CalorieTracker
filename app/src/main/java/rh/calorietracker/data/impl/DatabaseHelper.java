@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "calorietracker.db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 3;
 
     private static DatabaseHelper instance;
 
@@ -37,5 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(DatabaseSchema.FoodEntry._SQL_DELETE_TABLE);
         db.execSQL(DatabaseSchema.PortionEntry._SQL_DELETE_TABLE);
+
+        onCreate(db);
     }
 }

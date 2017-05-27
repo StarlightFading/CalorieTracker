@@ -1,18 +1,14 @@
 package rh.calorietracker.entity;
 
-public class Portion {
+import rh.calorietracker.data.impl.DatabaseEntity;
+
+public class Portion extends DatabaseEntity {
 
     private String name;
 
     private int amount;
 
     private Food food;
-
-    public Portion(String name, int amount, Food food) {
-        this.name = name;
-        this.amount = amount;
-        this.food = food;
-    }
 
     public String getName() {
         return name;

@@ -1,10 +1,8 @@
 package rh.calorietracker.entity;
 
-import java.io.Serializable;
+import rh.calorietracker.data.impl.DatabaseEntity;
 
-public class Food implements Serializable {
-
-    private Long id;
+public class Food extends DatabaseEntity {
 
     private String name;
 
@@ -15,45 +13,6 @@ public class Food implements Serializable {
     private int carbs;
 
     private int fat;
-
-    public Food() {
-    }
-
-    public Food(String name, int calories) {
-        this.name = name;
-        this.calories = calories;
-    }
-
-    public Food(Long id, String name, int calories) {
-        this.id = id;
-        this.name = name;
-        this.calories = calories;
-    }
-
-    public Food(Long id, String name, int calories, int protein, int carbs, int fat) {
-        this.id = id;
-        this.name = name;
-        this.calories = calories;
-        this.protein = protein;
-        this.carbs = carbs;
-        this.fat = fat;
-    }
-
-    public Food(String name, int calories, int protein, int carbs, int fat) {
-        this.name = name;
-        this.calories = calories;
-        this.protein = protein;
-        this.carbs = carbs;
-        this.fat = fat;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

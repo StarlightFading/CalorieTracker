@@ -8,4 +8,6 @@ import rh.calorietracker.entity.Portion;
 public interface PortionRepository {
 
     List<Portion> findForFood(Food food);
+
+    void create(Portion portion);
 }
