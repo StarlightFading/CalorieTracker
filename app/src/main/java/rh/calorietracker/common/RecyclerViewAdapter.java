@@ -59,6 +59,12 @@ public abstract class RecyclerViewAdapter<T, VH extends RecyclerView.ViewHolder>
         return items.size();
     }
 
+    public void addItem(T item) {
+        int position = items.size();
+        items.add(item);
+        notifyItemInserted(position);
+    }
+
     public void removeItem(T item) {
         int position = items.indexOf(item);
         items.remove(position);

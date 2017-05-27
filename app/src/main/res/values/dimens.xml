@@ -2,4 +2,5 @@
 <resources>
     <dimen name="padding_list_item">16dp</dimen>
     <dimen name="padding_activity">16dp</dimen>
+    <dimen name="padding_dialog">16dp</dimen>
 </resources>

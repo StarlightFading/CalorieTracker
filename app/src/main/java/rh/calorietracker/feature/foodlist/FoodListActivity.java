@@ -31,6 +31,8 @@ public class FoodListActivity extends AppCompatActivity implements FoodListContr
 
     private FoodListPresenter presenter;
 
+    private FoodListAdapter foodListAdapter;
+
     private final ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -65,12 +67,6 @@ public class FoodListActivity extends AppCompatActivity implements FoodListContr
             actionMode = null;
         }
     };
-    private FoodListAdapter foodListAdapter;
-
-    private void deleteSelectedFood() {
-        presenter.onFoodDeleted(selectedFood);
-        foodListAdapter.removeItem(selectedFood);
-    }
 
     private ActionMode actionMode;
 
@@ -164,5 +160,10 @@ public class FoodListActivity extends AppCompatActivity implements FoodListContr
 
     private void showFoodEditor() {
         startActivityForResult(FoodEditorActivity.createIntent(this, selectedFood), REQUEST_FOOD_EDITOR);
+    }
+
+    private void deleteSelectedFood() {
+        presenter.onFoodDeleted(selectedFood);
+        foodListAdapter.removeItem(selectedFood);
     }
 }

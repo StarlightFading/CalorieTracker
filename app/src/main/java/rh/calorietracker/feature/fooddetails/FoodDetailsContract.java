@@ -12,6 +12,8 @@ public interface FoodDetailsContract {
     }
 
     interface ViewActions {
-        void onPortionsListRequested(Food food);
+        void onPortionsListRequested();
+
+        void onPortionCreated(Portion portion);
     }
 }

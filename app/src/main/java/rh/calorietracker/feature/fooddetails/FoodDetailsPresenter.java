@@ -12,13 +12,22 @@ public class FoodDetailsPresenter extends Presenter<FoodDetailsContract.View> im
 
     private final PortionRepository portionRepository = new DatabasePortionRepository();
 
-    public FoodDetailsPresenter(FoodDetailsActivity view) {
+    private final Food food;
+
+    public FoodDetailsPresenter(FoodDetailsActivity view, Food food) {
         super(view);
+        this.food = food;
     }
 
     @Override
-    public void onPortionsListRequested(Food food) {
+    public void onPortionsListRequested() {
         List<Portion> portions = portionRepository.findForFood(food);
         view.displayPortions(portions);
+    }
+
+    @Override
+    public void onPortionCreated(Portion portion) {
+        portion.setFood(food);
+        portionRepository.create(portion);
     }
 }
