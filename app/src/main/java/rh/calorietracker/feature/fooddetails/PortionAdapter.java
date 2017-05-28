@@ -31,8 +31,8 @@ public class PortionAdapter extends RecyclerViewAdapter<Portion, PortionAdapter.
         super.onBindViewHolder(holder, position);
 
         Portion portion = getItem(position);
-        holder.name.setText(portion.getName());
-        holder.amount.setText(String.valueOf(portion.getAmount()));
+        holder.textName.setText(portion.getName());
+        holder.textAmount.setText(String.valueOf(portion.getAmount()));
 
         int calories = portion.getFood().getCalories() * portion.getAmount() / 100;
         holder.calories.setText(String.valueOf(calories));
@@ -41,10 +41,10 @@ public class PortionAdapter extends RecyclerViewAdapter<Portion, PortionAdapter.
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.text_portion_name)
-        TextView name;
+        TextView textName;
 
         @BindView(R.id.text_portion_amount)
-        TextView amount;
+        TextView textAmount;
 
         @BindView(R.id.text_portion_calories)
         TextView calories;

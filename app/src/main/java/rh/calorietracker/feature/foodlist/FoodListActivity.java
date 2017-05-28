@@ -2,9 +2,9 @@ package rh.calorietracker.feature.foodlist;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,7 +18,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import rh.calorietracker.R;
 import rh.calorietracker.common.RecyclerViewAdapter;
-import rh.calorietracker.data.impl.DatabaseHelper;
 import rh.calorietracker.entity.Food;
 import rh.calorietracker.feature.fooddetails.FoodDetailsActivity;
 import rh.calorietracker.feature.foodeditor.FoodEditorActivity;
@@ -77,8 +76,6 @@ public class FoodListActivity extends AppCompatActivity implements FoodListContr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_list);
         ButterKnife.bind(this);
-
-        DatabaseHelper.init(this); // TODO: move this
 
         setupView();
 
