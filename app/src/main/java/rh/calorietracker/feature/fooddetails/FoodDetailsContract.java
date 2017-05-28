@@ -15,5 +15,9 @@ public interface FoodDetailsContract {
         void onPortionsListRequested();
 
         void onPortionCreated(Portion portion);
+
+        void onPortionUpdated(Portion portion);
+
+        void onPortionDeleted(Portion portion);
     }
 }

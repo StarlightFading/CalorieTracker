@@ -1,7 +1,9 @@
 package rh.calorietracker.feature.fooddetails;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.view.ActionMode;
@@ -18,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rh.calorietracker.R;
+import rh.calorietracker.common.RecyclerViewAdapter;
 import rh.calorietracker.entity.Food;
 import rh.calorietracker.entity.Portion;
 
@@ -62,10 +65,10 @@ public class FoodDetailsActivity extends AppCompatActivity implements FoodDetail
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.action_edit_food:
+                case R.id.action_edit_portion:
                     showEditPortionDialog();
                     break;
-                case R.id.action_delete_food:
+                case R.id.action_delete_portion:
                     showDeletePortionConfirmationDialog();
                     break;
                 default:
@@ -82,12 +85,46 @@ public class FoodDetailsActivity extends AppCompatActivity implements FoodDetail
         }
     };
 
+    private Portion selectedPortion;
+
     private void showDeletePortionConfirmationDialog() {
-        // TODO: implement
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.message_delete_item_confirmation)
+                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteSelectedPortion();
+                        selectedPortion = null;
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        selectedPortion = null;
+                    }
+                })
+                .create()
+                .show();
+    }
+
+    private void deleteSelectedPortion() {
+        portionAdapter.removeItem(selectedPortion);
+        presenter.onPortionDeleted(selectedPortion);
     }
 
     private void showEditPortionDialog() {
-        // TODO: implement
+        PortionDialogFragment dialog = new PortionDialogFragment();
+        dialog.setArguments(PortionDialogFragment.createArguments(selectedPortion));
+
+        dialog.setOnDialogAcceptedListener(new PortionDialogFragment.OnDialogAcceptedListener() {
+            @Override
+            public void onDialogAccepted(Portion portion) {
+                presenter.onPortionUpdated(portion);
+                portionAdapter.notifyItemChanged(portion);
+            }
+        });
+
+        dialog.show(getFragmentManager(), "PortionDialogFragment");
     }
 
     private ActionMode actionMode;
@@ -128,6 +165,17 @@ public class FoodDetailsActivity extends AppCompatActivity implements FoodDetail
     @Override
     public void displayPortions(List<Portion> portions) {
         portionAdapter = new PortionAdapter(portions);
+
+        portionAdapter.setOnLongClickListener(new RecyclerViewAdapter.OnLongClickListener<Portion>() {
+            @Override
+            public void onItemLongClicked(Portion portion) {
+                if (actionMode == null) {
+                    selectedPortion = portion;
+                    startSupportActionMode(actionModeCallback);
+                }
+            }
+        });
+
         recyclerPortions.setAdapter(portionAdapter);
     }
 

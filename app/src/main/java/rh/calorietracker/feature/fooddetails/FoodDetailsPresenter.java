@@ -30,4 +30,14 @@ public class FoodDetailsPresenter extends Presenter<FoodDetailsContract.View> im
         portion.setFood(food);
         portionRepository.create(portion);
     }
+
+    @Override
+    public void onPortionUpdated(Portion portion) {
+        portionRepository.update(portion);
+    }
+
+    @Override
+    public void onPortionDeleted(Portion portion) {
+        portionRepository.delete(portion);
+    }
 }

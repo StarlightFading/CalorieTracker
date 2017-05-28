@@ -10,4 +10,8 @@ public interface PortionRepository {
     List<Portion> findForFood(Food food);
 
     void create(Portion portion);
+
+    void update(Portion portion);
+
+    void delete(Portion portion);
 }

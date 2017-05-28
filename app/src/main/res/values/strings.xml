@@ -14,4 +14,5 @@
     <string name="portion_name">Portion Name</string>
     <string name="create">Create</string>
     <string name="add_portion">Add Portion</string>
+    <string name="error_input_empty">This field can\'t be empty</string>
 </resources>

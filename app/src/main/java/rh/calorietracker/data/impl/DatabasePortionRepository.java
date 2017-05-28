@@ -12,7 +12,7 @@ import rh.calorietracker.entity.Portion;
 
 public class DatabasePortionRepository extends DatabaseRepository<Portion> implements PortionRepository {
 
-    public static final String TAG = "DatabasePortionRepository";
+    private static final String TAG = "DatabasePortionRepository";
 
     @Override
     public List<Portion> findForFood(Food food) {
@@ -51,6 +51,7 @@ public class DatabasePortionRepository extends DatabaseRepository<Portion> imple
     @Override
     protected String[] getColumns() {
         return new String[] {
+                PortionEntry._ID,
                 PortionEntry.NAME,
                 PortionEntry.AMOUNT,
         };
@@ -59,6 +60,7 @@ public class DatabasePortionRepository extends DatabaseRepository<Portion> imple
     @Override
     protected Portion mapEntityFromCursor(Cursor cursor) {
         Portion portion = new Portion();
+        portion.setId(getLong(cursor, PortionEntry._ID));
         portion.setName(getString(cursor, PortionEntry.NAME));
         portion.setAmount(getInt(cursor, PortionEntry.AMOUNT));
 

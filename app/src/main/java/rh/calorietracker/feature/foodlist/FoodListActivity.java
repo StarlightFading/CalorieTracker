@@ -118,18 +118,18 @@ public class FoodListActivity extends AppCompatActivity implements FoodListContr
     public void displayFoods(List<Food> foods) {
         foodListAdapter = new FoodListAdapter(foods);
 
-        foodListAdapter.setOnClickListener(new RecyclerViewAdapter.OnClickListener() {
+        foodListAdapter.setOnClickListener(new RecyclerViewAdapter.OnClickListener<Food>() {
             @Override
-            public void onItemClicked(Object item) {
-                startActivity(FoodDetailsActivity.createIntent(FoodListActivity.this, (Food) item));
+            public void onItemClicked(Food food) {
+                startActivity(FoodDetailsActivity.createIntent(FoodListActivity.this, food));
             }
         });
 
-        foodListAdapter.setOnLongClickListener(new RecyclerViewAdapter.OnLongClickListener() {
+        foodListAdapter.setOnLongClickListener(new RecyclerViewAdapter.OnLongClickListener<Food>() {
             @Override
-            public void onItemLongClicked(Object item) {
+            public void onItemLongClicked(Food food) {
                 if (actionMode == null) {
-                    selectedFood = (Food) item;
+                    selectedFood = food;
                     actionMode = startSupportActionMode(actionModeCallback);
                 }
             }

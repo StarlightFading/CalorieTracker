@@ -18,6 +18,8 @@ import rh.calorietracker.entity.Portion;
 
 public class PortionDialogFragment extends DialogFragment {
 
+    public static final String ARG_PORTION = "portion";
+
     @BindView(R.id.edit_portion_name)
     EditText editName;
 
@@ -25,6 +27,15 @@ public class PortionDialogFragment extends DialogFragment {
     EditText editAmount;
 
     private OnDialogAcceptedListener onDialogAcceptedListener;
+
+    private Portion portion;
+
+    public static Bundle createArguments(Portion portion) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(ARG_PORTION, portion);
+
+        return bundle;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -37,6 +48,8 @@ public class PortionDialogFragment extends DialogFragment {
                 .setPositiveButton(R.string.save, null)
                 .setNegativeButton(android.R.string.cancel, null);
 
+        loadPortion();
+
         return builder.create();
     }
 
@@ -48,22 +61,50 @@ public class PortionDialogFragment extends DialogFragment {
         positiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: validate input
+                if (validateInput()) {
+                    if (onDialogAcceptedListener != null) {
+                        portion.setName(editName.getText().toString());
+                        portion.setAmount(Integer.parseInt(editAmount.getText().toString()));
 
-                if (onDialogAcceptedListener != null) {
-                    Portion portion = new Portion();
-                    portion.setName(editName.getText().toString());
-                    portion.setAmount(Integer.parseInt(editAmount.getText().toString()));
+                        onDialogAcceptedListener.onDialogAccepted(portion);
+                    }
 
-                    onDialogAcceptedListener.onDialogAccepted(portion);
+                    dismiss();
                 }
-
-                dismiss();
             }
         });
 
         //noinspection ConstantConditions
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+    }
+
+    private void loadPortion() {
+        Bundle args = getArguments();
+
+        if (args != null && args.containsKey(ARG_PORTION)) {
+            portion = (Portion) args.getSerializable(ARG_PORTION);
+
+            editName.setText(portion.getName());
+            editAmount.setText(String.valueOf(portion.getAmount()));
+        } else {
+            portion = new Portion();
+        }
+    }
+
+    private boolean validateInput() {
+        boolean valid = true;
+
+        if (editName.getText().toString().trim().isEmpty()) {
+            editName.setError(getString(R.string.error_input_empty));
+            valid = false;
+        }
+
+        if (editAmount.getText().toString().trim().isEmpty()) {
+            editAmount.setError(getString(R.string.error_input_empty));
+            valid = false;
+        }
+
+        return valid;
     }
 
     public void setOnDialogAcceptedListener(OnDialogAcceptedListener onDialogAcceptedListener) {

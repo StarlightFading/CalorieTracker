@@ -65,6 +65,11 @@ public abstract class RecyclerViewAdapter<T, VH extends RecyclerView.ViewHolder>
         notifyItemInserted(position);
     }
 
+    public void notifyItemChanged(T item) {
+        int position = items.indexOf(item);
+        notifyItemChanged(position);
+    }
+
     public void removeItem(T item) {
         int position = items.indexOf(item);
         items.remove(position);
