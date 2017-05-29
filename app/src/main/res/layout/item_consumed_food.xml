@@ -6,15 +6,34 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/padding_list_item">
 
-    <TextView
-        android:id="@+id/text_consumed_food_name"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_consumed_food_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/text_consumed_food_portion_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_consumed_food_meal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/text_consumed_food_calories"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:gravity="center"/>
 
 </LinearLayout>

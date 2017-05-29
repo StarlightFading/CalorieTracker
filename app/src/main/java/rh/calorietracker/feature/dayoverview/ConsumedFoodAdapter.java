@@ -7,12 +7,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rh.calorietracker.R;
 import rh.calorietracker.common.RecyclerViewAdapter;
 import rh.calorietracker.entity.ConsumedFood;
+import rh.calorietracker.entity.Meal;
 
 public class ConsumedFoodAdapter extends RecyclerViewAdapter<ConsumedFood, ConsumedFoodAdapter.ViewHolder> {
 
@@ -37,7 +39,53 @@ public class ConsumedFoodAdapter extends RecyclerViewAdapter<ConsumedFood, Consu
         int portionSize = consumedFood.getPortion() != null ? consumedFood.getPortion().getAmount() : 100;
         double calories = portionSize * consumedFood.getAmount() * consumedFood.getFood().getCalories() / 100;
 
-        holder.textCalories.setText(String.valueOf(calories));
+        holder.textCalories.setText(formatDouble(calories));
+
+        if (consumedFood.getPortion() != null) {
+            String portionText = String.format(
+                    Locale.getDefault(),
+                    "%s (%s g) x %s",
+                    consumedFood.getPortion().getName(),
+                    consumedFood.getPortion().getAmount(),
+                    formatDouble(consumedFood.getAmount()));
+
+            holder.textPortionName.setText(portionText);
+        } else {
+            String portionText = formatDouble(consumedFood.getAmount() * 100) + " g";
+            holder.textPortionName.setText(portionText);
+        }
+        
+        holder.textMeal.setText(getMealString(consumedFood.getMeal()));
+    }
+    
+    private String getMealString(Meal meal) {
+        if (meal == null) {
+            return "Other";
+        }
+
+        // TODO: use resource strings
+        switch (meal) {
+            case BREAKFAST:
+                return "Breakfast";
+            case LUNCH:
+                return "Lunch";
+            case DINNER:
+                return "Dinner";
+            case SNACK1:
+                return "Snack 1";
+            case SNACK2:
+                return "Snack 2";
+            default:
+                return "Other";
+        }
+    }
+
+    private String formatDouble(double number) {
+        if (number == (long) number) {
+            return Long.toString((long) number);
+        } else {
+            return Double.toString(number);
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -47,6 +95,12 @@ public class ConsumedFoodAdapter extends RecyclerViewAdapter<ConsumedFood, Consu
 
         @BindView(R.id.text_consumed_food_calories)
         TextView textCalories;
+
+        @BindView(R.id.text_consumed_food_portion_name)
+        TextView textPortionName;
+
+        @BindView(R.id.text_consumed_food_meal)
+        TextView textMeal;
 
         public ViewHolder(View itemView) {
             super(itemView);

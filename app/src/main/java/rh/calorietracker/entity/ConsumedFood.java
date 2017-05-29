@@ -14,6 +14,8 @@ public class ConsumedFood extends DatabaseEntity {
 
     private double amount;
 
+    private Meal meal;
+
     public LocalDate getDate() {
         return date;
     }
@@ -44,5 +46,13 @@ public class ConsumedFood extends DatabaseEntity {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public Meal getMeal() {
+        return meal;
+    }
+
+    public void setMeal(Meal meal) {
+        this.meal = meal;
     }
 }

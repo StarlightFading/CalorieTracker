@@ -12,6 +12,7 @@ import rh.calorietracker.data.impl.DatabaseFoodRepository;
 import rh.calorietracker.data.impl.DatabasePortionRepository;
 import rh.calorietracker.entity.ConsumedFood;
 import rh.calorietracker.entity.Food;
+import rh.calorietracker.entity.Meal;
 import rh.calorietracker.entity.Portion;
 
 public class DayOverviewPresenter extends Presenter<DayOverviewContract.View> implements DayOverviewContract.ViewActions {
@@ -34,14 +35,23 @@ public class DayOverviewPresenter extends Presenter<DayOverviewContract.View> im
         cf1.setFood(foods.get(0));
         cf1.setDate(LocalDate.now());
         cf1.setAmount(0.5);
+        cf1.setMeal(Meal.DINNER);
         consumedFoods.add(cf1);
 
         ConsumedFood cf2 = new ConsumedFood();
         cf2.setFood(foods.get(0));
         cf2.setDate(LocalDate.now());
-        cf2.setAmount(0.5);
+        cf2.setAmount(1);
         cf2.setPortion(portions.get(0));
+        cf2.setMeal(Meal.BREAKFAST);
         consumedFoods.add(cf2);
+
+        ConsumedFood cf3 = new ConsumedFood();
+        cf3.setFood(foods.get(0));
+        cf3.setDate(LocalDate.now());
+        cf3.setAmount(0.5);
+        cf3.setPortion(portions.get(0));
+        consumedFoods.add(cf3);
 
         view.displayConsumedFoodList(consumedFoods);
     }
