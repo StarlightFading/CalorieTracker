@@ -26,11 +26,6 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/text_consumed_food_meal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
         android:id="@+id/text_consumed_food_calories"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

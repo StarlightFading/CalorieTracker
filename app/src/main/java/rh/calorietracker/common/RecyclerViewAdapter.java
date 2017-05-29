@@ -18,6 +18,9 @@ public abstract class RecyclerViewAdapter<T, VH extends RecyclerView.ViewHolder>
 
     private OnLongClickListener onLongClickListener;
 
+    public RecyclerViewAdapter() {
+    }
+
     public RecyclerViewAdapter(List<T> items) {
         if (!items.isEmpty()) {
             this.items.addAll(items);

@@ -6,34 +6,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rh.calorietracker.R;
-import rh.calorietracker.common.RecyclerViewAdapter;
+import rh.calorietracker.common.SectionAdapter;
 import rh.calorietracker.entity.ConsumedFood;
 import rh.calorietracker.entity.Meal;
+import rh.calorietracker.feature.foodlist.FoodListAdapter;
 
-public class ConsumedFoodAdapter extends RecyclerViewAdapter<ConsumedFood, ConsumedFoodAdapter.ViewHolder> {
-
-    public ConsumedFoodAdapter(List<ConsumedFood> items) {
-        super(items);
-    }
+public class ConsumedFoodAdapter extends SectionAdapter<ConsumedFood, ConsumedFoodAdapter.ViewHolder> {
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_consumed_food, parent, false);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
-
-        ConsumedFood consumedFood = getItem(position);
-
+    protected void bindItemViewHolder(ViewHolder holder, ConsumedFood consumedFood) {
         holder.textName.setText(consumedFood.getFood().getName());
 
         int portionSize = consumedFood.getPortion() != null ? consumedFood.getPortion().getAmount() : 100;
@@ -54,30 +40,12 @@ public class ConsumedFoodAdapter extends RecyclerViewAdapter<ConsumedFood, Consu
             String portionText = formatDouble(consumedFood.getAmount() * 100) + " g";
             holder.textPortionName.setText(portionText);
         }
-        
-        holder.textMeal.setText(getMealString(consumedFood.getMeal()));
     }
-    
-    private String getMealString(Meal meal) {
-        if (meal == null) {
-            return "Other";
-        }
 
-        // TODO: use resource strings
-        switch (meal) {
-            case BREAKFAST:
-                return "Breakfast";
-            case LUNCH:
-                return "Lunch";
-            case DINNER:
-                return "Dinner";
-            case SNACK1:
-                return "Snack 1";
-            case SNACK2:
-                return "Snack 2";
-            default:
-                return "Other";
-        }
+    @Override
+    protected ViewHolder createItemViewHolder(ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_consumed_food, parent, false);
+        return new ViewHolder(view);
     }
 
     private String formatDouble(double number) {
@@ -98,9 +66,6 @@ public class ConsumedFoodAdapter extends RecyclerViewAdapter<ConsumedFood, Consu
 
         @BindView(R.id.text_consumed_food_portion_name)
         TextView textPortionName;
-
-        @BindView(R.id.text_consumed_food_meal)
-        TextView textMeal;
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -18,6 +19,7 @@ import butterknife.ButterKnife;
 import rh.calorietracker.R;
 import rh.calorietracker.data.impl.DatabaseHelper;
 import rh.calorietracker.entity.ConsumedFood;
+import rh.calorietracker.entity.Meal;
 import rh.calorietracker.feature.foodlist.FoodListActivity;
 
 public class DayOverviewActivity extends AppCompatActivity implements DayOverviewContract.View {
@@ -63,7 +65,47 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
 
     @Override
     public void displayConsumedFoodList(List<ConsumedFood> consumedFoods) {
-        ConsumedFoodAdapter adapter = new ConsumedFoodAdapter(consumedFoods);
+        ConsumedFoodAdapter adapter = new ConsumedFoodAdapter();
+
+        for (Meal meal : Meal.values()) {
+            adapter.addItems(getMealString(meal), getConsumedFoodsByMeal(consumedFoods, meal));
+        }
+
+        adapter.addItems(getMealString(null), getConsumedFoodsByMeal(consumedFoods, null));
+
         recyclerConsumedFoods.setAdapter(adapter);
+    }
+
+    private List<ConsumedFood> getConsumedFoodsByMeal(List<ConsumedFood> consumedFoods, Meal meal) {
+        List<ConsumedFood> results = new ArrayList<>();
+
+        for (ConsumedFood consumedFood : consumedFoods) {
+            if (consumedFood.getMeal() == meal) {
+                results.add(consumedFood);
+            }
+        }
+
+        return results;
+    }
+
+    private String getMealString(Meal meal) {
+        if (meal == null) {
+            return getString(R.string.other);
+        }
+
+        switch (meal) {
+            case BREAKFAST:
+                return getString(R.string.breakfast);
+            case LUNCH:
+                return getString(R.string.lunch);
+            case DINNER:
+                return getString(R.string.dinner);
+            case SNACK1:
+                return getString(R.string.snack1);
+            case SNACK2:
+                return getString(R.string.snack2);
+            default:
+                return getString(R.string.other);
+        }
     }
 }

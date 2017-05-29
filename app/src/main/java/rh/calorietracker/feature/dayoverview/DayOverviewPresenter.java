@@ -46,12 +46,36 @@ public class DayOverviewPresenter extends Presenter<DayOverviewContract.View> im
         cf2.setMeal(Meal.BREAKFAST);
         consumedFoods.add(cf2);
 
+        ConsumedFood cf4 = new ConsumedFood();
+        cf4.setFood(foods.get(0));
+        cf4.setDate(LocalDate.now());
+        cf4.setAmount(1);
+        cf4.setPortion(portions.get(0));
+        cf4.setMeal(Meal.BREAKFAST);
+        consumedFoods.add(cf4);
+
         ConsumedFood cf3 = new ConsumedFood();
         cf3.setFood(foods.get(0));
         cf3.setDate(LocalDate.now());
         cf3.setAmount(0.5);
         cf3.setPortion(portions.get(0));
         consumedFoods.add(cf3);
+
+        ConsumedFood cf5 = new ConsumedFood();
+        cf5.setFood(foods.get(0));
+        cf5.setDate(LocalDate.now());
+        cf5.setAmount(1);
+        cf5.setPortion(portions.get(0));
+        cf5.setMeal(Meal.BREAKFAST);
+        consumedFoods.add(cf5);
+
+        ConsumedFood cf6 = new ConsumedFood();
+        cf6.setFood(foods.get(0));
+        cf6.setDate(LocalDate.now());
+        cf6.setAmount(1);
+        cf6.setPortion(portions.get(0));
+        cf6.setMeal(Meal.DINNER);
+        consumedFoods.add(cf6);
 
         view.displayConsumedFoodList(consumedFoods);
     }
