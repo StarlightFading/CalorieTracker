@@ -17,6 +17,8 @@ import rh.calorietracker.entity.Portion;
 
 public class DayOverviewPresenter extends Presenter<DayOverviewContract.View> implements DayOverviewContract.ViewActions {
 
+    private PortionRepository portionRepository = new DatabasePortionRepository();
+
     public DayOverviewPresenter(DayOverviewContract.View view) {
         super(view);
     }
@@ -24,7 +26,6 @@ public class DayOverviewPresenter extends Presenter<DayOverviewContract.View> im
     @Override
     public void onConsumedFoodListRequested() {
         FoodRepository foodRepository = new DatabaseFoodRepository();
-        PortionRepository portionRepository = new DatabasePortionRepository();
 
         List<Food> foods = foodRepository.findAll();
         List<Portion> portions = portionRepository.findForFood(foods.get(0));
@@ -78,5 +79,10 @@ public class DayOverviewPresenter extends Presenter<DayOverviewContract.View> im
         consumedFoods.add(cf6);
 
         view.displayConsumedFoodList(consumedFoods);
+    }
+
+    @Override
+    public void onRequestConsumedFoodDialog(Food food) {
+        view.displayConsumedFoodDialog(food, portionRepository.findForFood(food));
     }
 }

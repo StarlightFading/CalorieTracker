@@ -21,6 +21,7 @@ import rh.calorietracker.data.impl.DatabaseHelper;
 import rh.calorietracker.entity.ConsumedFood;
 import rh.calorietracker.entity.Food;
 import rh.calorietracker.entity.Meal;
+import rh.calorietracker.entity.Portion;
 import rh.calorietracker.feature.foodlist.FoodListActivity;
 import rh.calorietracker.feature.foodpicker.FoodPickerActivity;
 
@@ -32,6 +33,8 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
     RecyclerView recyclerConsumedFoods;
 
     private Result result;
+    private DayOverviewPresenter presenter;
+    private ConsumedFoodAdapter consumedFoodAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,7 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
         recyclerConsumedFoods.setLayoutManager(new LinearLayoutManager(this));
         recyclerConsumedFoods.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-        DayOverviewPresenter presenter = new DayOverviewPresenter(this);
+        presenter = new DayOverviewPresenter(this);
         presenter.onConsumedFoodListRequested();
     }
 
@@ -88,18 +91,14 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
         if (result.getRequestCode() == REQUEST_FOOD_PICKER
                 && result.getResultCode() == FoodPickerActivity.RESULT_FOOD_PICKED) {
             Food food = (Food) result.getData().getSerializableExtra(FoodPickerActivity.EXTRA_FOOD);
-            showConsumedFoodDialog(food);
+            presenter.onRequestConsumedFoodDialog(food);
         }
 
         result = null;
     }
 
-    private void showConsumedFoodDialog(Food food) {
-
-    }
-
     private void showFoodPicker() {
-        startActivity(new Intent(this, FoodPickerActivity.class));
+        startActivityForResult(new Intent(this, FoodPickerActivity.class), REQUEST_FOOD_PICKER);
     }
 
     private void showFoodList() {
@@ -108,15 +107,31 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
 
     @Override
     public void displayConsumedFoodList(List<ConsumedFood> consumedFoods) {
-        ConsumedFoodAdapter adapter = new ConsumedFoodAdapter();
+        consumedFoodAdapter = new ConsumedFoodAdapter();
 
         for (Meal meal : Meal.values()) {
-            adapter.addItems(getMealString(meal), getConsumedFoodsByMeal(consumedFoods, meal));
+            consumedFoodAdapter.addItems(getMealString(meal), getConsumedFoodsByMeal(consumedFoods, meal));
         }
 
-        adapter.addItems(getMealString(null), getConsumedFoodsByMeal(consumedFoods, null));
+        consumedFoodAdapter.addItems(getMealString(null), getConsumedFoodsByMeal(consumedFoods, null));
 
-        recyclerConsumedFoods.setAdapter(adapter);
+        recyclerConsumedFoods.setAdapter(consumedFoodAdapter);
+    }
+
+    @Override
+    public void displayConsumedFoodDialog(Food food, List<Portion> portions) {
+        ConsumedFoodDialogFragment dialogFragment = new ConsumedFoodDialogFragment();
+        dialogFragment.setArguments(ConsumedFoodDialogFragment.createArguments(food, new ArrayList<>(portions)));
+
+        dialogFragment.setOnDialogAcceptedListener(new ConsumedFoodDialogFragment.OnDialogAcceptedListener() {
+            @Override
+            public void onDialogAccepted(ConsumedFood consumedFood) {
+                // todo: push to presenter
+                // todo: reload items
+            }
+        });
+
+        dialogFragment.show(getSupportFragmentManager(), "ConsumedFoodDialogFragment");
     }
 
     private List<ConsumedFood> getConsumedFoodsByMeal(List<ConsumedFood> consumedFoods, Meal meal) {
