@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 import rh.calorietracker.R;
 import rh.calorietracker.common.RecyclerViewAdapter;
 import rh.calorietracker.entity.Food;
+import rh.calorietracker.feature.common.FoodListAdapter;
 import rh.calorietracker.feature.fooddetails.FoodDetailsActivity;
 import rh.calorietracker.feature.foodeditor.FoodEditorActivity;
 

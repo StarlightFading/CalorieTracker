@@ -1,4 +1,4 @@
-package rh.calorietracker.feature.foodlist;
+package rh.calorietracker.feature.common;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

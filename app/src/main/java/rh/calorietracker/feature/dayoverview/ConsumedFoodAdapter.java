@@ -13,8 +13,6 @@ import butterknife.ButterKnife;
 import rh.calorietracker.R;
 import rh.calorietracker.common.SectionAdapter;
 import rh.calorietracker.entity.ConsumedFood;
-import rh.calorietracker.entity.Meal;
-import rh.calorietracker.feature.foodlist.FoodListAdapter;
 
 public class ConsumedFoodAdapter extends SectionAdapter<ConsumedFood, ConsumedFoodAdapter.ViewHolder> {
 

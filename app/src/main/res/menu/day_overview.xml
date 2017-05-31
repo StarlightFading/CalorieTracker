@@ -6,6 +6,12 @@
         android:id="@+id/action_show_food_list"
         android:title="@string/food_list"
         android:icon="@drawable/ic_food"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_add_consumed_food"
+        android:title="@string/add_consumed_food"
+        android:icon="@drawable/ic_add"
         app:showAsAction="always"/>
 
 </menu>

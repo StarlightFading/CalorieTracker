@@ -22,4 +22,5 @@
     <string name="snack1">Snack1</string>
     <string name="dinner">Dinner</string>
     <string name="lunch">Lunch</string>
+    <string name="add_consumed_food">Add Consumed Food</string>
 </resources>

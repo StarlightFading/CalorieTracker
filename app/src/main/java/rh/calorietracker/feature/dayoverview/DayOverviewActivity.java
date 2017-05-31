@@ -19,13 +19,19 @@ import butterknife.ButterKnife;
 import rh.calorietracker.R;
 import rh.calorietracker.data.impl.DatabaseHelper;
 import rh.calorietracker.entity.ConsumedFood;
+import rh.calorietracker.entity.Food;
 import rh.calorietracker.entity.Meal;
 import rh.calorietracker.feature.foodlist.FoodListActivity;
+import rh.calorietracker.feature.foodpicker.FoodPickerActivity;
 
 public class DayOverviewActivity extends AppCompatActivity implements DayOverviewContract.View {
 
+    private static final int REQUEST_FOOD_PICKER = 1;
+
     @BindView(R.id.recycler_consumed_foods)
     RecyclerView recyclerConsumedFoods;
+
+    private Result result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +57,49 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_show_food_list) {
-            showFoodList();
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_show_food_list:
+                showFoodList();
+                break;
+            case R.id.action_add_consumed_food:
+                showFoodPicker();
+                break;
+            default:
+                return false;
         }
 
-        return false;
+        return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        result = new Result(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+
+        if (result == null) {
+            return;
+        }
+
+        if (result.getRequestCode() == REQUEST_FOOD_PICKER
+                && result.getResultCode() == FoodPickerActivity.RESULT_FOOD_PICKED) {
+            Food food = (Food) result.getData().getSerializableExtra(FoodPickerActivity.EXTRA_FOOD);
+            showConsumedFoodDialog(food);
+        }
+
+        result = null;
+    }
+
+    private void showConsumedFoodDialog(Food food) {
+
+    }
+
+    private void showFoodPicker() {
+        startActivity(new Intent(this, FoodPickerActivity.class));
     }
 
     private void showFoodList() {
@@ -106,6 +149,30 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
                 return getString(R.string.snack2);
             default:
                 return getString(R.string.other);
+        }
+    }
+
+    private static class Result {
+        private final int requestCode;
+        private final int resultCode;
+        private final Intent data;
+
+        public Result(int requestCode, int resultCode, Intent data) {
+            this.requestCode = requestCode;
+            this.resultCode = resultCode;
+            this.data = data;
+        }
+
+        public int getRequestCode() {
+            return requestCode;
+        }
+
+        public int getResultCode() {
+            return resultCode;
+        }
+
+        public Intent getData() {
+            return data;
         }
     }
 }
