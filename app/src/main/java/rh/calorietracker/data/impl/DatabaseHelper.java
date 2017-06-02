@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "calorietracker.db";
-    private static final int DB_VERSION = 4;
+    private static final int DB_VERSION = 5;
 
     private static DatabaseHelper instance;
 

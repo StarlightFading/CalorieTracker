@@ -11,6 +11,8 @@ import android.view.MenuItem;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
+import org.threeten.bp.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,8 +128,11 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
         dialogFragment.setOnDialogAcceptedListener(new ConsumedFoodDialogFragment.OnDialogAcceptedListener() {
             @Override
             public void onDialogAccepted(ConsumedFood consumedFood) {
-                // todo: push to presenter
-                // todo: reload items
+                consumedFood.setDate(LocalDate.now());
+                consumedFood.setMeal(Meal.BREAKFAST); // TODO: this in dialog
+
+                presenter.onConsumedFoodAdded(consumedFood);
+                presenter.onConsumedFoodListRequested();
             }
         });
 

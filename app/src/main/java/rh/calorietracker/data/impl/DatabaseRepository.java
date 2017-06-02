@@ -11,7 +11,7 @@ import java.util.List;
 
 public abstract class DatabaseRepository<T extends DatabaseEntity> {
 
-    private final DatabaseHelper dbHelper = DatabaseHelper.getInstance();
+    protected final DatabaseHelper dbHelper = DatabaseHelper.getInstance();
 
     public void create(T entity) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -36,7 +36,7 @@ public abstract class DatabaseRepository<T extends DatabaseEntity> {
             db.update(
                     getTableName(),
                     getContentValues(entity),
-                    DatabaseSchema.FoodEntry._ID + "=?",
+                    getIdColumnName() + "=?",
                     new String[] { String.valueOf(entity.getId()) });
 
             db.setTransactionSuccessful();
@@ -54,7 +54,7 @@ public abstract class DatabaseRepository<T extends DatabaseEntity> {
         try {
             db.delete(
                     getTableName(),
-                    DatabaseSchema.FoodEntry._ID + "=?",
+                    getIdColumnName() + "=?",
                     new String[] { String.valueOf(entity.getId()) });
 
             db.setTransactionSuccessful();
@@ -66,6 +66,8 @@ public abstract class DatabaseRepository<T extends DatabaseEntity> {
     }
 
     protected abstract String getTableName();
+
+    protected abstract String getIdColumnName();
 
     protected abstract String getTag();
 
@@ -102,15 +104,19 @@ public abstract class DatabaseRepository<T extends DatabaseEntity> {
         return results;
     }
 
-    protected Long getLong(Cursor cursor, String column) {
+    protected static Long getLong(Cursor cursor, String column) {
         return cursor.getLong(cursor.getColumnIndexOrThrow(column));
     }
 
-    protected String getString(Cursor cursor, String column) {
+    protected static String getString(Cursor cursor, String column) {
         return cursor.getString(cursor.getColumnIndexOrThrow(column));
     }
 
-    protected int getInt(Cursor cursor, String column) {
+    protected static int getInt(Cursor cursor, String column) {
         return cursor.getInt(cursor.getColumnIndexOrThrow(column));
+    }
+
+    protected static double getDouble(Cursor cursor, String column) {
+        return cursor.getDouble(cursor.getColumnIndexOrThrow(column));
     }
 }

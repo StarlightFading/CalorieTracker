@@ -25,6 +25,11 @@ public class DatabaseFoodRepository extends DatabaseRepository<Food> implements 
     }
 
     @Override
+    protected String getIdColumnName() {
+        return FoodEntry.ID;
+    }
+
+    @Override
     protected String getTag() {
         return TAG;
     }
@@ -43,7 +48,7 @@ public class DatabaseFoodRepository extends DatabaseRepository<Food> implements 
     @Override
     protected String[] getColumns() {
         return new String[] {
-                FoodEntry._ID,
+                FoodEntry.ID,
                 FoodEntry.NAME,
                 FoodEntry.CALORIES,
                 FoodEntry.PROTEIN,
@@ -54,7 +59,18 @@ public class DatabaseFoodRepository extends DatabaseRepository<Food> implements 
     @Override
     protected Food mapEntityFromCursor(Cursor cursor) {
         Food food = new Food();
-        food.setId(getLong(cursor, FoodEntry._ID));
+        food.setId(getLong(cursor, FoodEntry.ID));
+        food.setName(getString(cursor, FoodEntry.NAME));
+        food.setCalories(getInt(cursor, FoodEntry.CALORIES));
+        food.setProtein(getInt(cursor, FoodEntry.PROTEIN));
+        food.setCarbs(getInt(cursor, FoodEntry.CARBS));
+        food.setFat(getInt(cursor, FoodEntry.FAT));
+        return food;
+    }
+
+    public static Food mapFood(Cursor cursor) {
+        Food food = new Food();
+        food.setId(getLong(cursor, FoodEntry.ID));
         food.setName(getString(cursor, FoodEntry.NAME));
         food.setCalories(getInt(cursor, FoodEntry.CALORIES));
         food.setProtein(getInt(cursor, FoodEntry.PROTEIN));

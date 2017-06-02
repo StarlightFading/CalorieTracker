@@ -34,6 +34,11 @@ public class DatabasePortionRepository extends DatabaseRepository<Portion> imple
     }
 
     @Override
+    protected String getIdColumnName() {
+        return PortionEntry.ID;
+    }
+
+    @Override
     protected String getTag() {
         return TAG;
     }
@@ -51,7 +56,7 @@ public class DatabasePortionRepository extends DatabaseRepository<Portion> imple
     @Override
     protected String[] getColumns() {
         return new String[] {
-                PortionEntry._ID,
+                PortionEntry.ID,
                 PortionEntry.NAME,
                 PortionEntry.AMOUNT,
         };
@@ -60,7 +65,22 @@ public class DatabasePortionRepository extends DatabaseRepository<Portion> imple
     @Override
     protected Portion mapEntityFromCursor(Cursor cursor) {
         Portion portion = new Portion();
-        portion.setId(getLong(cursor, PortionEntry._ID));
+        portion.setId(getLong(cursor, PortionEntry.ID));
+        portion.setName(getString(cursor, PortionEntry.NAME));
+        portion.setAmount(getInt(cursor, PortionEntry.AMOUNT));
+
+        return portion;
+    }
+
+    public static Portion mapPortion(Cursor cursor) {
+        Long id = getLong(cursor, PortionEntry.ID);
+
+        if (id == 0) {
+            return null;
+        }
+
+        Portion portion = new Portion();
+        portion.setId(id);
         portion.setName(getString(cursor, PortionEntry.NAME));
         portion.setAmount(getInt(cursor, PortionEntry.AMOUNT));
 
