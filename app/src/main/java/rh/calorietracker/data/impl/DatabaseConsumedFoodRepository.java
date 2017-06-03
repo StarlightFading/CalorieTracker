@@ -115,6 +115,8 @@ public class DatabaseConsumedFoodRepository extends DatabaseRepository<ConsumedF
                 return 4;
             case SNACK2:
                 return 5;
+            case OTHER:
+                return 6;
             default:
                 return null;
         }
@@ -132,6 +134,8 @@ public class DatabaseConsumedFoodRepository extends DatabaseRepository<ConsumedF
                 return Meal.SNACK1;
             case 5:
                 return Meal.SNACK2;
+            case 6:
+                return Meal.OTHER;
             default:
                 return null;
         }

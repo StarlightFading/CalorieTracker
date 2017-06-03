@@ -21,9 +21,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnItemSelected;
 import rh.calorietracker.R;
 import rh.calorietracker.entity.ConsumedFood;
 import rh.calorietracker.entity.Food;
+import rh.calorietracker.entity.Meal;
 import rh.calorietracker.entity.Portion;
 
 public class ConsumedFoodDialogFragment extends DialogFragment {
@@ -46,6 +48,7 @@ public class ConsumedFoodDialogFragment extends DialogFragment {
     private OnDialogAcceptedListener onDialogAcceptedListener;
 
     private Food food;
+    private ConsumedFood consumedFood;
 
     public static Bundle createArguments(Food food, ArrayList<Portion> portions) {
         Bundle args = new Bundle();
@@ -80,6 +83,9 @@ public class ConsumedFoodDialogFragment extends DialogFragment {
         food = (Food) args.getSerializable(ARG_FOOD);
         textFoodName.setText(food.getName());
 
+        consumedFood = new ConsumedFood();
+        consumedFood.setFood(food);
+
         ArrayList<Portion> portions = (ArrayList<Portion>) args.getSerializable(ARG_PORTIONS);
         List<String> portionStrings = new ArrayList<>();
 
@@ -112,8 +118,6 @@ public class ConsumedFoodDialogFragment extends DialogFragment {
                     if (onDialogAcceptedListener != null) {
                         // todo build consumed food
 
-                        ConsumedFood consumedFood = new ConsumedFood();
-                        consumedFood.setFood(food);
                         consumedFood.setAmount(Double.parseDouble(editAmount.getText().toString()));
 
                         onDialogAcceptedListener.onDialogAccepted(consumedFood);
@@ -135,6 +139,30 @@ public class ConsumedFoodDialogFragment extends DialogFragment {
         }
 
         return true;
+    }
+
+    @OnItemSelected(R.id.spinner_meal)
+    public void mealSelected(Spinner spinner, int position) {
+        switch (position) {
+            case 0:
+                consumedFood.setMeal(Meal.BREAKFAST);
+                break;
+            case 1:
+                consumedFood.setMeal(Meal.LUNCH);
+                break;
+            case 2:
+                consumedFood.setMeal(Meal.DINNER);
+                break;
+            case 3:
+                consumedFood.setMeal(Meal.SNACK1);
+                break;
+            case 4:
+                consumedFood.setMeal(Meal.SNACK2);
+                break;
+            case 5:
+                consumedFood.setMeal(Meal.OTHER);
+                break;
+        }
     }
 
     public void setOnDialogAcceptedListener(OnDialogAcceptedListener onDialogAcceptedListener) {

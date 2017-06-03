@@ -115,8 +115,6 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
             consumedFoodAdapter.addItems(getMealString(meal), getConsumedFoodsByMeal(consumedFoods, meal));
         }
 
-        consumedFoodAdapter.addItems(getMealString(null), getConsumedFoodsByMeal(consumedFoods, null));
-
         recyclerConsumedFoods.setAdapter(consumedFoodAdapter);
     }
 
@@ -129,7 +127,6 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
             @Override
             public void onDialogAccepted(ConsumedFood consumedFood) {
                 consumedFood.setDate(LocalDate.now());
-                consumedFood.setMeal(Meal.BREAKFAST); // TODO: this in dialog
 
                 presenter.onConsumedFoodAdded(consumedFood);
                 presenter.onConsumedFoodListRequested();
@@ -152,10 +149,6 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
     }
 
     private String getMealString(Meal meal) {
-        if (meal == null) {
-            return getString(R.string.other);
-        }
-
         switch (meal) {
             case BREAKFAST:
                 return getString(R.string.breakfast);
@@ -167,9 +160,11 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
                 return getString(R.string.snack1);
             case SNACK2:
                 return getString(R.string.snack2);
-            default:
+            case OTHER:
                 return getString(R.string.other);
         }
+
+        return "";
     }
 
     private static class Result {

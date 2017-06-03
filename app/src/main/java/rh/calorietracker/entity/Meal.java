@@ -6,4 +6,5 @@ public enum Meal {
     DINNER,
     SNACK1,
     SNACK2,
+    OTHER,
 }
