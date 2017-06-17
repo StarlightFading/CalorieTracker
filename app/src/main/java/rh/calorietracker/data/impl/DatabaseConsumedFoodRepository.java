@@ -39,6 +39,24 @@ public class DatabaseConsumedFoodRepository extends DatabaseRepository<ConsumedF
     }
 
     @Override
+    public List<ConsumedFood> findForDate(LocalDate date) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(ConsumedFoodEntry.SQL_FIND_FOR_DATE, new String[] { formatDate(date) });
+
+        List<ConsumedFood> consumedFoods = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            ConsumedFood consumedFood = mapEntityFromCursor(cursor);
+            consumedFoods.add(consumedFood);
+        }
+
+        cursor.close();
+
+        return consumedFoods;
+    }
+
+    @Override
     protected String getTableName() {
         return ConsumedFoodEntry._TABLE_NAME;
     }

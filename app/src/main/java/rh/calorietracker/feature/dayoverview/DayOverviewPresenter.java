@@ -27,8 +27,8 @@ public class DayOverviewPresenter extends Presenter<DayOverviewContract.View> im
     }
 
     @Override
-    public void onConsumedFoodListRequested() {
-        view.displayConsumedFoodList(consumedFoodRepository.findAll());
+    public void onConsumedFoodListRequested(LocalDate date) {
+        view.displayConsumedFoodList(consumedFoodRepository.findForDate(date));
     }
 
     @Override

@@ -25,6 +25,8 @@
     <string name="add_consumed_food">Add Consumed Food</string>
     <string name="portion">Portion:</string>
     <string name="custom">Custom:</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
 
     <string-array name="meals">
         <item>@string/breakfast</item>

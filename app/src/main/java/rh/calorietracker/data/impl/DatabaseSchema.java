@@ -98,7 +98,7 @@ public class DatabaseSchema {
                         + " LEFT JOIN " + FoodEntry._TABLE_NAME
                         + " ON " + _TABLE_NAME + "." + FOOD_ID + " = " + FoodEntry._TABLE_NAME + "." + FoodEntry.ID
                         + " LEFT JOIN " + PortionEntry._TABLE_NAME
-                        + " ON " + _TABLE_NAME + "." + PORTION_ID + " = " + PortionEntry._TABLE_NAME + "." + PortionEntry.ID;
-//                        + " WHERE " + DATE + "=?";
+                        + " ON " + _TABLE_NAME + "." + PORTION_ID + " = " + PortionEntry._TABLE_NAME + "." + PortionEntry.ID
+                        + " WHERE " + DATE + "=?";
     }
 }

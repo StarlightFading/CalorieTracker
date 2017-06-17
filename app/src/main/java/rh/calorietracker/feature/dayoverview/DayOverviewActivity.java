@@ -11,16 +11,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import org.threeten.bp.LocalDate;
+import org.threeten.bp.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import rh.calorietracker.R;
 import rh.calorietracker.common.SectionAdapter;
 import rh.calorietracker.data.impl.DatabaseHelper;
@@ -37,6 +40,9 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
 
     @BindView(R.id.recycler_consumed_foods)
     RecyclerView recyclerConsumedFoods;
+
+    @BindView(R.id.text_selected_date)
+    TextView textSelectedDate;
 
     private Result result;
 
@@ -77,7 +83,10 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
     };
 
     private ActionMode actionMode;
+
     private ConsumedFood selectedConsumedFood;
+
+    private LocalDate selectedDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +100,11 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
         recyclerConsumedFoods.setLayoutManager(new LinearLayoutManager(this));
         recyclerConsumedFoods.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
+        selectedDate = LocalDate.now();
+        updateSelectedDate();
+
         presenter = new DayOverviewPresenter(this);
-        presenter.onConsumedFoodListRequested();
+        presenter.onConsumedFoodListRequested(selectedDate);
     }
 
     @Override
@@ -175,14 +187,28 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
         dialogFragment.setOnDialogAcceptedListener(new ConsumedFoodDialogFragment.OnDialogAcceptedListener() {
             @Override
             public void onDialogAccepted(ConsumedFood consumedFood) {
-                consumedFood.setDate(LocalDate.now());
+                consumedFood.setDate(selectedDate);
 
                 presenter.onConsumedFoodAdded(consumedFood);
-                presenter.onConsumedFoodListRequested();
+                presenter.onConsumedFoodListRequested(selectedDate);
             }
         });
 
         dialogFragment.show(getSupportFragmentManager(), "ConsumedFoodDialogFragment");
+    }
+
+    @OnClick(R.id.button_previous_day)
+    public void onPreviousDayButtonClicked() {
+        selectedDate = selectedDate.minusDays(1);
+        updateSelectedDate();
+        presenter.onConsumedFoodListRequested(selectedDate);
+    }
+
+    @OnClick(R.id.button_next_day)
+    public void onNextDayButtonClicked() {
+        selectedDate = selectedDate.plusDays(1);
+        updateSelectedDate();
+        presenter.onConsumedFoodListRequested(selectedDate);
     }
 
     private List<ConsumedFood> getConsumedFoodsByMeal(List<ConsumedFood> consumedFoods, Meal meal) {
@@ -239,6 +265,10 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
     private void deleteSelectedConsumedFood() {
         presenter.onConsumedFoodDeleted(selectedConsumedFood);
         consumedFoodAdapter.removeItem(selectedConsumedFood);
+    }
+
+    private void updateSelectedDate() {
+        textSelectedDate.setText(selectedDate.format(DateTimeFormatter.ISO_LOCAL_DATE));
     }
 
     private static class Result {

@@ -1,5 +1,7 @@
 package rh.calorietracker.feature.dayoverview;
 
+import org.threeten.bp.LocalDate;
+
 import java.util.List;
 
 import rh.calorietracker.entity.ConsumedFood;
@@ -15,7 +17,7 @@ public interface DayOverviewContract {
     }
 
     interface ViewActions {
-        void onConsumedFoodListRequested();
+        void onConsumedFoodListRequested(LocalDate date);
 
         void onRequestConsumedFoodDialog(Food food);
 
