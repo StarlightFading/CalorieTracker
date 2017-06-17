@@ -44,6 +44,18 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
     @BindView(R.id.text_selected_date)
     TextView textSelectedDate;
 
+    @BindView(R.id.text_total_calories)
+    TextView textTotalCalories;
+
+    @BindView(R.id.text_total_protein)
+    TextView textTotalProtein;
+
+    @BindView(R.id.text_total_carbs)
+    TextView textTotalCarbs;
+
+    @BindView(R.id.text_total_fat)
+    TextView textTotalFat;
+
     private Result result;
 
     private DayOverviewPresenter presenter;
@@ -172,11 +184,13 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
             @Override
             public void onItemLongClicked(Object item) {
                 selectedConsumedFood = (ConsumedFood) item;
-                startSupportActionMode(actionModeCallback);
+                actionMode = startSupportActionMode(actionModeCallback);
             }
         });
 
         recyclerConsumedFoods.setAdapter(consumedFoodAdapter);
+
+        updateTotalCalories(consumedFoods);
     }
 
     @Override
@@ -265,6 +279,25 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
     private void deleteSelectedConsumedFood() {
         presenter.onConsumedFoodDeleted(selectedConsumedFood);
         consumedFoodAdapter.removeItem(selectedConsumedFood);
+    }
+
+    private void updateTotalCalories(List<ConsumedFood> consumedFoods) {
+        int calories = 0;
+        int protein = 0;
+        int carbs = 0;
+        int fat = 0;
+
+        for (ConsumedFood consumedFood : consumedFoods) {
+            calories += consumedFood.getCalories();
+            protein += consumedFood.getProtein();
+            carbs += consumedFood.getCarbs();
+            fat += consumedFood.getFat();
+        }
+
+        textTotalCalories.setText(String.valueOf(calories));
+        textTotalProtein.setText(String.valueOf(protein));
+        textTotalCarbs.setText(String.valueOf(carbs));
+        textTotalFat.setText(String.valueOf(fat));
     }
 
     private void updateSelectedDate() {

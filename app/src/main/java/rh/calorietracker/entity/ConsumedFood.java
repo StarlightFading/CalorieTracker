@@ -2,6 +2,8 @@ package rh.calorietracker.entity;
 
 import org.threeten.bp.LocalDate;
 
+import java.util.Locale;
+
 import rh.calorietracker.data.impl.DatabaseEntity;
 
 public class ConsumedFood extends DatabaseEntity {
@@ -54,5 +56,25 @@ public class ConsumedFood extends DatabaseEntity {
 
     public void setMeal(Meal meal) {
         this.meal = meal;
+    }
+
+    public double getCalories() {
+        int portionSize = getPortion() != null ? getPortion().getAmount() : 100;
+        return portionSize * getAmount() * getFood().getCalories() / 100;
+    }
+
+    public double getProtein() {
+        int portionSize = getPortion() != null ? getPortion().getAmount() : 100;
+        return portionSize * getAmount() * getFood().getProtein() / 100;
+    }
+
+    public double getCarbs() {
+        int portionSize = getPortion() != null ? getPortion().getAmount() : 100;
+        return portionSize * getAmount() * getFood().getCarbs() / 100;
+    }
+
+    public double getFat() {
+        int portionSize = getPortion() != null ? getPortion().getAmount() : 100;
+        return portionSize * getAmount() * getFood().getFat() / 100;
     }
 }

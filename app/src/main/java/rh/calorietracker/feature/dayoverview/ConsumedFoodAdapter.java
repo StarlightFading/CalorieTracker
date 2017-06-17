@@ -20,10 +20,7 @@ public class ConsumedFoodAdapter extends SectionAdapter<ConsumedFood, ConsumedFo
     protected void bindItemViewHolder(ViewHolder holder, ConsumedFood consumedFood) {
         holder.textName.setText(consumedFood.getFood().getName());
 
-        int portionSize = consumedFood.getPortion() != null ? consumedFood.getPortion().getAmount() : 100;
-        double calories = portionSize * consumedFood.getAmount() * consumedFood.getFood().getCalories() / 100;
-
-        holder.textCalories.setText(formatDouble(calories));
+        holder.textCalories.setText(formatDouble(consumedFood.getCalories()));
 
         if (consumedFood.getPortion() != null) {
             String portionText = String.format(
