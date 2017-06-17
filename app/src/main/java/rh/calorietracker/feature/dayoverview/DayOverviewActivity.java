@@ -1,8 +1,11 @@
 package rh.calorietracker.feature.dayoverview;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rh.calorietracker.R;
+import rh.calorietracker.common.SectionAdapter;
 import rh.calorietracker.data.impl.DatabaseHelper;
 import rh.calorietracker.entity.ConsumedFood;
 import rh.calorietracker.entity.Food;
@@ -35,8 +39,45 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
     RecyclerView recyclerConsumedFoods;
 
     private Result result;
+
     private DayOverviewPresenter presenter;
+
     private ConsumedFoodAdapter consumedFoodAdapter;
+
+    private final ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.day_overview_action_mode, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                  case R.id.action_delete_consumed_food:
+                    showDeleteConsumedFoodConfirmationDialog();
+                    break;
+                default:
+                    return false;
+            }
+
+            mode.finish();
+            return true;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            actionMode = null;
+        }
+    };
+
+    private ActionMode actionMode;
+    private ConsumedFood selectedConsumedFood;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +156,14 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
             consumedFoodAdapter.addItems(getMealString(meal), getConsumedFoodsByMeal(consumedFoods, meal));
         }
 
+        consumedFoodAdapter.setOnLongClickListener(new SectionAdapter.OnLongClickListener() {
+            @Override
+            public void onItemLongClicked(Object item) {
+                selectedConsumedFood = (ConsumedFood) item;
+                startSupportActionMode(actionModeCallback);
+            }
+        });
+
         recyclerConsumedFoods.setAdapter(consumedFoodAdapter);
     }
 
@@ -165,6 +214,31 @@ public class DayOverviewActivity extends AppCompatActivity implements DayOvervie
         }
 
         return "";
+    }
+
+    private void showDeleteConsumedFoodConfirmationDialog() {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.message_delete_item_confirmation)
+                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteSelectedConsumedFood();
+                        selectedConsumedFood = null;
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        selectedConsumedFood = null;
+                    }
+                })
+                .create()
+                .show();
+    }
+
+    private void deleteSelectedConsumedFood() {
+        presenter.onConsumedFoodDeleted(selectedConsumedFood);
+        consumedFoodAdapter.removeItem(selectedConsumedFood);
     }
 
     private static class Result {

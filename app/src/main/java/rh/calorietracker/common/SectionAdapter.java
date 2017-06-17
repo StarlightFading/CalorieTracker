@@ -21,11 +21,13 @@ public abstract class SectionAdapter<T, VH extends RecyclerView.ViewHolder> exte
 
     private final List<ItemWrapper> items = new ArrayList<>();
 
+    private OnLongClickListener onLongClickListener;
+
     public void addItems(@NonNull String section, @NonNull List<T> items) {
         this.items.add(new ItemWrapper(section));
 
         for (T item : items) {
-            this.items.add(new ItemWrapper(item));
+            this.items.add(new ItemWrapper<>(item));
         }
     }
 
@@ -43,12 +45,22 @@ public abstract class SectionAdapter<T, VH extends RecyclerView.ViewHolder> exte
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ItemWrapper itemWrapper = items.get(position);
+        final ItemWrapper itemWrapper = items.get(position);
 
         if (itemWrapper.isHeader()) {
             bindHeaderViewHolder((HeaderViewHolder) holder, itemWrapper);
         } else {
-            bindItemViewHolder((VH) holder, itemWrapper.item);
+            if (onLongClickListener != null) {
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        onLongClickListener.onItemLongClicked(itemWrapper.item);
+                        return true;
+                    }
+                });
+            }
+
+            bindItemViewHolder((VH) holder, (T) itemWrapper.item);
         }
     }
 
@@ -66,6 +78,23 @@ public abstract class SectionAdapter<T, VH extends RecyclerView.ViewHolder> exte
         }
     }
 
+    public void removeItem(ItemWrapper<T> item) {
+        int position = items.indexOf(item);
+        items.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void removeItem(T item) {
+        for (ItemWrapper wrapper : items) {
+            if (!wrapper.isHeader() && wrapper.item.equals(item)) {
+                int position = items.indexOf(wrapper);
+                items.remove(position);
+                notifyItemRemoved(position);
+                return;
+            }
+        }
+    }
+
     private void bindHeaderViewHolder(HeaderViewHolder viewHolder, ItemWrapper wrapper) {
         viewHolder.textSectionName.setText(wrapper.name);
     }
@@ -73,6 +102,10 @@ public abstract class SectionAdapter<T, VH extends RecyclerView.ViewHolder> exte
     protected abstract void bindItemViewHolder(VH viewHolder, T item);
 
     protected abstract VH createItemViewHolder(ViewGroup parent);
+
+    public void setOnLongClickListener(OnLongClickListener onLongClickListener) {
+        this.onLongClickListener = onLongClickListener;
+    }
 
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {
 
@@ -85,7 +118,7 @@ public abstract class SectionAdapter<T, VH extends RecyclerView.ViewHolder> exte
         }
     }
 
-    private class ItemWrapper {
+    public static class ItemWrapper<T> {
         private T item;
 
         private String name;
@@ -101,5 +134,13 @@ public abstract class SectionAdapter<T, VH extends RecyclerView.ViewHolder> exte
         public boolean isHeader() {
             return item == null;
         }
+
+        public T getItem() {
+            return item;
+        }
+    }
+
+    public interface OnLongClickListener<T> {
+        void onItemLongClicked(T item);
     }
 }

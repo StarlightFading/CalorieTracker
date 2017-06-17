@@ -40,4 +40,9 @@ public class DayOverviewPresenter extends Presenter<DayOverviewContract.View> im
     public void onConsumedFoodAdded(ConsumedFood consumedFood) {
         consumedFoodRepository.create(consumedFood);
     }
+
+    @Override
+    public void onConsumedFoodDeleted(ConsumedFood consumedFood) {
+        consumedFoodRepository.delete(consumedFood);
+    }
 }

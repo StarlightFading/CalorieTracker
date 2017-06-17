@@ -20,5 +20,7 @@ public interface DayOverviewContract {
         void onRequestConsumedFoodDialog(Food food);
 
         void onConsumedFoodAdded(ConsumedFood consumedFood);
+
+        void onConsumedFoodDeleted(ConsumedFood consumedFood);
     }
 }
