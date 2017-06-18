@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CalorieTracker.iml" filepath="$PROJECT_DIR$/CalorieTracker.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/droiddb/droiddb.iml" filepath="$PROJECT_DIR$/droiddb/droiddb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/droiddb-compiler/droiddb-compiler.iml" filepath="$PROJECT_DIR$/droiddb-compiler/droiddb-compiler.iml" />
     </modules>
   </component>
 </project>

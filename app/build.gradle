@@ -31,4 +31,7 @@ dependencies {
     compile 'com.jakewharton.threetenabp:threetenabp:1.0.5'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    compile project(path: ':droiddb')
+    compile project(':droiddb-compiler')
+    annotationProcessor project(':droiddb-compiler')
 }

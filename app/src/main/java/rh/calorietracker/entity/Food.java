@@ -1,7 +1,9 @@
 package rh.calorietracker.entity;
 
 import rh.calorietracker.data.impl.DatabaseEntity;
+import rh.droiddb.Entity;
 
+@Entity("food")
 public class Food extends DatabaseEntity {
 
     private String name;
